@@ -3,6 +3,8 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { MongooseModule } from '@nestjs/mongoose';
+import { RolesModule } from './core/roles/roles.module';
+import { DiscoveryModule } from './common/discovery/discovery.module';
 
 @Module({
   imports: [
@@ -16,6 +18,8 @@ import { MongooseModule } from '@nestjs/mongoose';
     ConfigModule.forRoot({
       isGlobal: true,
     }),
+    RolesModule,
+    DiscoveryModule,
   ],
   controllers: [AppController],
   providers: [AppService],
