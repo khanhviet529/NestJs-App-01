@@ -4,7 +4,6 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { MongooseModule } from '@nestjs/mongoose';
 import { RolesModule } from './core/roles/roles.module';
-import { DiscoveryModule } from './common/discovery/discovery.module';
 
 @Module({
   imports: [
@@ -19,9 +18,8 @@ import { DiscoveryModule } from './common/discovery/discovery.module';
       isGlobal: true,
     }),
     RolesModule,
-    DiscoveryModule,
   ],
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule { }
+export class AppModule {}

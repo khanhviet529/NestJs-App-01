@@ -9,9 +9,9 @@ import { DiscoveryModule } from '@nestjs/core';
 @Module({
   imports: [
     MongooseModule.forFeature([{ name: Role.name, schema: RoleSchema }]),
-    DiscoveryModule
+    DiscoveryModule,
   ],
   controllers: [RolesController],
   providers: [RolesService, ResponseHandlerService, RoutesService],
 })
-export class RolesModule { }
+export class RolesModule {}
