@@ -4,9 +4,14 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { MongooseModule } from '@nestjs/mongoose';
 import { RolesModule } from './core/roles/roles.module';
+import { UsersModule } from './core/users/users.module';
+import { AuthModule } from './core/auth/auth.module';
 
 @Module({
   imports: [
+    ConfigModule.forRoot({
+      isGlobal: true,
+    }),
     MongooseModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
@@ -14,12 +19,11 @@ import { RolesModule } from './core/roles/roles.module';
         uri: configService.get<string>('MONGODB_URI'),
       }),
     }),
-    ConfigModule.forRoot({
-      isGlobal: true,
-    }),
     RolesModule,
+    UsersModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule { }

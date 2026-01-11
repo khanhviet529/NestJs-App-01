@@ -26,7 +26,9 @@ export class RolesService implements IService {
   async create(createDto: CreateDto): TupleErrorOrData<MongoDocument> {
     try {
       const document = new this.model(createDto);
+
       const userDoc = await document.save();
+
       return [null, userDoc];
     } catch (err) {
       errorLogger(err);
@@ -38,12 +40,15 @@ export class RolesService implements IService {
     pageOptionsDto: PageOptionsDto,
   ): TypeErrorOrPageDtoTuple<MongoDocument> {
     try {
-      const [error, data] = await listMongoCollectionWithPagination(
-        this.model,
-        pageOptionsDto,
-      );
+      const [error, data] =
+        await listMongoCollectionWithPagination<MongoDocument>(
+          this.model,
+          pageOptionsDto,
+        );
 
       if (error) return [error, null];
+
+      if (!data) return [null, null];
 
       return [null, data];
     } catch (err) {
@@ -55,6 +60,9 @@ export class RolesService implements IService {
   async one(id: string): TupleErrorOrData<MongoDocument> {
     try {
       const document = await this.model.findById(id).exec();
+
+      if (!document) return [null, null];
+
       return [null, document];
     } catch (err) {
       errorLogger(err);
@@ -75,6 +83,9 @@ export class RolesService implements IService {
   async many(ids: TypeMongoId[]): TupleErrorOrData<MongoDocument[]> {
     try {
       const documents = await this.model.find({ _id: { $in: ids } }).exec();
+
+      if (!documents) return [null, null];
+
       return [null, documents];
     } catch (err) {
       errorLogger(err);

@@ -16,9 +16,7 @@ import { RolesService as SchemaService } from './roles.service';
 import { PageOptionsDto } from '../../common/dtos';
 import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
 import { ValidateMongoIdPipe } from '../../utils/mongo.utils';
-import { EnumFieldsFilterMode } from '../../utils/object.utils';
 import { ResponseHandlerService } from 'src/utils/response.handler.utils';
-import { ObjectTransformerLib } from '../../utils/object.transformers.lib';
 import { RoutesService } from './routes.service';
 @Controller('role')
 @ApiTags('Role Management')
@@ -68,12 +66,7 @@ export class RolesController {
       return this.rhService.notFoundHandler(res, `${this.entityTitle}`);
     }
 
-    const _role = new ObjectTransformerLib(role)
-      .mongoToPureJSON()
-      .filterFields(EnumFieldsFilterMode.remove, ['password'])
-      .getData();
-
-    return this.rhService.dataHandler(res, _role);
+    return this.rhService.dataHandler(res, role);
   }
 
   @Post()

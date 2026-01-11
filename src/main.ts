@@ -2,8 +2,6 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { BadRequestException, ValidationPipe, VersioningType } from '@nestjs/common';
 import { ValidationError } from 'class-validator';
-import { getRouteList } from './utils/routes.utils';
-import { DiscoveryService } from './common/discovery/discovery.service';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -27,11 +25,6 @@ async function bootstrap() {
   });
 
   await app.listen(8080);
-
-  const routesList = getRouteList(app);
-
-  const discoveryService = app.get(DiscoveryService);
-  discoveryService.setRoutes(routesList);
 }
 bootstrap();
 
